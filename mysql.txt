@@ -1,0 +1,123 @@
+
+Setting environment for using XAMPP for Windows.
+cse@CSE-PC c:\xampp
+# password=$(grep -oP 'temporary password(.*): \K(\S+)' /var/log/mysqld.log)
+'password' is not recognized as an internal or external command,
+operable program or batch file.
+
+cse@CSE-PC c:\xampp
+# mysqladmin --user=root --password="$password" password aaBB@@cc1122
+mysqladmin: connect to server at 'localhost' failed
+error: 'Access denied for user 'root'@'localhost' (using password: YES)'
+
+cse@CSE-PC c:\xampp
+# mysql --user=root --password=aaBB@@cc1122 -e "UNINSTALL PLUGIN validate_passwo
+rd;"
+ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: Y
+ES)
+
+cse@CSE-PC c:\xampp
+# mysqladmin --user=root --password="aaBB@@cc1122" password ""
+mysqladmin: connect to server at 'localhost' failed
+error: 'Access denied for user 'root'@'localhost' (using password: YES)'
+
+cse@CSE-PC c:\xampp
+# password=$(grep -oP 'temporary password(.*): \K(\S+)' /var/log/mysqld.log)
+'password' is not recognized as an internal or external command,
+operable program or batch file.
+
+cse@CSE-PC c:\xampp
+# mysql -u root
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 97
+Server version: 10.4.8-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use newone
+Database changed
+MariaDB [newone]> insert into newtable (name){
+    -> Bye
+
+cse@CSE-PC c:\xampp
+# mysql -u root
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 98
+Server version: 10.4.8-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> insert into newtable (name)
+    -> values ('no1')
+    ->  values ('no2')
+    ->  values ('no3');
+ERROR 1046 (3D000): No database selected
+MariaDB [(none)]> use newone
+Database changed
+MariaDB [newone]> insert into newtable (name)
+    -> values ('no1')
+    ->  values ('no2')
+    ->  values ('no3');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that
+corresponds to your MariaDB server version for the right syntax to use near 'val
+ues ('no2')
+ values ('no3')' at line 3
+MariaDB [newone]> insert into newtable (name)
+    ->  values ('no3');
+Query OK, 1 row affected (0.077 sec)
+
+MariaDB [newone]> insert into newtable (name){
+    -> values ('no1')
+    ->  values ('no3');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that
+corresponds to your MariaDB server version for the right syntax to use near '{
+values ('no1')
+ values ('no3')' at line 1
+MariaDB [newone]> insert into newtable (name)
+    ->  values ('no2');
+Query OK, 1 row affected (0.027 sec)
+
+MariaDB [newone]> select * from newtable;
++-------+
+| name  |
++-------+
+| kumar |
+| no3   |
+| no2   |
++-------+
+3 rows in set (0.001 sec)
+
+MariaDB [newone]> alter table newtable add lovername varchar(12);
+Query OK, 0 rows affected (0.143 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [newone]> insert into newtable (lovername)
+    ->  values ('mother');
+Query OK, 1 row affected (0.060 sec)
+
+MariaDB [newone]> insert into newtable (lovername)
+    ->  values ('father');
+Query OK, 1 row affected (0.042 sec)
+
+MariaDB [newone]> insert into newtable (lovername)
+    ->  values ('brother');
+Query OK, 1 row affected (0.102 sec)
+
+MariaDB [newone]> select * from newtable;
++-------+-----------+
+| name  | lovername |
++-------+-----------+
+| kumar | NULL      |
+| no3   | NULL      |
+| no2   | NULL      |
+| NULL  | mother    |
+| NULL  | father    |
+| NULL  | brother   |
++-------+-----------+
+6 rows in set (0.001 sec)
+
+MariaDB [newone]> insert into newtable (lovername)
